@@ -23,7 +23,6 @@ public class ProductRepository {
 
     public List<ProductModel> loadAll() {
         List<ProductModel> products = new ArrayList<>();
-
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -35,7 +34,7 @@ public class ProductRepository {
                 products.add(new ProductModel(id, name, price, category));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return products;
     }
