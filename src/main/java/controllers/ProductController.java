@@ -25,14 +25,9 @@ public class ProductController {
             if (choice == 0) break;
 
             switch (choice) {
-                case 1:
-                    addProduct();
-                    break;
-                case 2:
-                    showAllProducts();
-                    break;
-                default:
-                    System.out.println("Некорректный выбор. Попробуйте еще раз.");
+                case 1 -> addProduct();
+                case 2 -> showAllProducts();
+                default -> System.out.println("Некорректный выбор. Попробуйте еще раз.");
             }
         }
     }
