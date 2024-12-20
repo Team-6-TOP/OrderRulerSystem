@@ -54,5 +54,6 @@ public class CustomerModel {
     public String toString() {
         return "Customer: " + "ID - " + ID +
                 ", " + name + ", " + type;
+
     }
 }
