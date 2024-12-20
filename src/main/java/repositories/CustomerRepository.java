@@ -34,11 +34,13 @@ public class CustomerRepository {
             return customer;
         }
         return null;
+
     }
     public List<CustomerModel> findAllCustomers () {
         return customers;
     }
     public CustomerModel findById (Integer id) {
         return customers.get(id);
+
     }
 }

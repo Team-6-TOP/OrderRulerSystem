@@ -22,5 +22,6 @@ public class CustomerService {
     }
     public CustomerModel getById () {
         return customerRepository.findById();
+
     }
 }

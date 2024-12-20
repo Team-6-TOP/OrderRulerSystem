@@ -61,5 +61,6 @@ public class CustomerController {
         System.out.println("Введите ID покупателя");
         idNumber = scanner.nextInt();
         return customerService.getById();
+
     }
 }
