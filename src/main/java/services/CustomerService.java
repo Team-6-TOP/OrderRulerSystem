@@ -17,10 +17,12 @@ public class CustomerService {
         CustomerModel savedCustomer = customerRepository.save(newCustomer);
         return savedCustomer;
     }
-    public List<CustomerModel> getAll () {
+
+    public List<CustomerModel> getAll() {
         return customerRepository.findAllCustomers();
     }
-    public CustomerModel getById () {
-        return customerRepository.findById();
+
+    public CustomerModel getById(Integer id) {
+        return customerRepository.findById(id);
     }
 }

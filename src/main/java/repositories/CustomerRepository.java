@@ -1,6 +1,7 @@
 package repositories;
 
 import models.CustomerModel;
+import exceptions.CustomerNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +36,15 @@ public class CustomerRepository {
         }
         return null;
     }
-    public List<CustomerModel> findAllCustomers () {
+
+    public List<CustomerModel> findAllCustomers() {
         return customers;
     }
-    public CustomerModel findById (Integer id) {
-        return customers.get(id);
+
+    public CustomerModel findById(Integer id) {
+        if (id <= 0 || id > customers.size()) {
+            throw new CustomerNotFoundException("Такой покупатель не найден с ID: " + id);
+        }
+        return customers.get(id - 1);
     }
 }
