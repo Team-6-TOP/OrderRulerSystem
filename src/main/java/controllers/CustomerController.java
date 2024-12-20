@@ -4,6 +4,7 @@ import exceptions.CustomerNotFoundException;
 import models.CustomerModel;
 import services.CustomerService;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CustomerController {
@@ -34,17 +35,12 @@ public class CustomerController {
                 }
             } catch (IndexOutOfBoundsException e) {
                 System.out.println(e.getMessage());
+            } catch (InputMismatchException e) {
+                System.out.println("Пожалуйста, введите корректное число.");
             }
-//            throw new CustomerNotFoundException("Такой покупатель не найден");
-
         }
-
     }
 
-    /**
-     * Добавляет покупателя с консоли
-     * no parameters
-     */
     private void addCustomer() {
         System.out.println("Введите имя покупателя: ");
         customerName = scanner.nextLine();
@@ -57,10 +53,14 @@ public class CustomerController {
         System.out.println(list);
     }
 
-    private CustomerModel getByIDCustomer() {
-        System.out.println("Введите ID покупателя");
-        idNumber = scanner.nextInt();
-        return customerService.getById();
-
+    private void getByIDCustomer() {
+        try {
+            System.out.println("Введите ID покупателя");
+            idNumber = scanner.nextInt();
+            CustomerModel customer = customerService.getById(idNumber);
+            System.out.println(customer);
+        } catch (CustomerNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
