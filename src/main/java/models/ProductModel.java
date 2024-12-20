@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Objects;
+
 public class ProductModel {
     private final int id;
     private String name;
@@ -27,6 +29,19 @@ public class ProductModel {
 
     public String getCategory() {
         return category;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductModel that = (ProductModel) o;
+        return id == that.id && Double.compare(that.price, price) == 0 && name.equals(that.name) && category.equals(that.category);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price, category);
     }
 
     @Override
