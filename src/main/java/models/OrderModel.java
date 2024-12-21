@@ -26,7 +26,7 @@ public class OrderModel {
         return orderProduct;
     }
 
-/*    @Override
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -38,7 +38,7 @@ public class OrderModel {
     @Override
     public int hashCode() {
         return Objects.hash(orderID, orderCustomer, orderProduct);
-    } */
+    }
 
     @Override
     public String toString() {
