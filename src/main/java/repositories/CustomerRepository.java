@@ -2,6 +2,7 @@ package repositories;
 
 import models.CustomerModel;
 import exceptions.CustomerNotFoundException;
+import models.Enums.CustomerType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +22,17 @@ public class CustomerRepository {
         customer.setID(++countID);
         System.out.println("Выберите тип покупателя: \n1 - новый покупатель, \n2 - постоянный покупатель, " +
                 "\n3 - VIP-клиент");
+
+        CustomerType type1 = CustomerType.NEW;
+        CustomerType type2 = CustomerType.REGULAR;
+        CustomerType type3 = CustomerType.VIP;
+
         String customerType = scanner.nextLine();
 
         customerType = switch (customerType) {
-            case "1" -> "Новый покупатель";
-            case "2" -> "Постоянный покупатель";
-            case "3" -> "VIP";
+            case "1" -> CustomerType.NEW.getType();
+            case "2" -> CustomerType.REGULAR.getType();
+            case "3" -> CustomerType.VIP.getType();
             default -> "Такого типа покупателя не существует";
         };
         customer.setType(customerType);
