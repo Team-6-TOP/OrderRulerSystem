@@ -1,4 +1,4 @@
-package services.OrderService;
+package services;
 
 import models.OrderModel;
 import repositories.OrderRepository;
@@ -16,7 +16,7 @@ public class OrderService {
         orderRepository.saveAnOrder(orderModel);
     }
 
-    public OrderModel getOrderByID(int orderID) {
+    public OrderModel findOrderID(int orderID) {
         return orderRepository.findOrderID(orderID);
     }
 
