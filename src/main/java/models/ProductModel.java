@@ -1,5 +1,5 @@
 package models;
-
+//Для сдачи дз
 import java.util.Objects;
 
 /**
