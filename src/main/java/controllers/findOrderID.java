@@ -29,7 +29,7 @@ public class findOrderID {
                 System.out.println("Заказ не найден! Попробуйте ещё раз.");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Заказ не найден!");
         } finally {
             orderIdSc.close();
         }
