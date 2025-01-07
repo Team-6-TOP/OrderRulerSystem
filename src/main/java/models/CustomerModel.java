@@ -3,22 +3,22 @@ package models;
 import java.util.Objects;
 
 public class CustomerModel {
-    private Integer ID;
+    private Integer id;
     private String name;
     private String type;
 
-    public CustomerModel(Integer ID, String name, String type) {
-        this.ID = ID;
+    public CustomerModel(Integer id, String name, String type) {
+        this.id = id;
         this.name = name;
         this.type = type;
     }
 
-    public Integer getID() {
-        return ID;
+    public Integer getId() {
+        return id;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -42,17 +42,17 @@ public class CustomerModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CustomerModel that = (CustomerModel) o;
-        return Objects.equals(ID, that.ID) && Objects.equals(name, that.name) && Objects.equals(type, that.type);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(type, that.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, name, type);
+        return Objects.hash(id, name, type);
     }
 
     @Override
     public String toString() {
-        return "Customer: " + "ID - " + ID +
+        return "Customer: " + "ID - " + id +
                 ", " + name + ", " + type;
 
     }

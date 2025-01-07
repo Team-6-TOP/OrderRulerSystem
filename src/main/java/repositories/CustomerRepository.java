@@ -19,7 +19,7 @@ public class CustomerRepository {
     }
 
     public CustomerModel save(CustomerModel customer) {
-        customer.setID(++countID);
+        customer.setId(++countID);
         System.out.println("Выберите тип покупателя: \n1 - новый покупатель, \n2 - постоянный покупатель, " +
                 "\n3 - VIP-клиент");
 

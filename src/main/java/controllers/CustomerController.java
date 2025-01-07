@@ -17,9 +17,12 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+    /**
+     * Показывает меню для управления продавцами
+     */
     public void customerMenu() {
         while (true) {
-            System.out.println("Выберите опцию: ");
+            System.out.println("===== Выберите опцию =====");
             System.out.println("1.Добавить покупателя");
             System.out.println("2.Показать список всех покупателей");
             System.out.println("3.Поиск покупателя по ID");
@@ -31,7 +34,7 @@ public class CustomerController {
                     case 1 -> addCustomer();
                     case 2 -> getAllCustomers();
                     case 3 -> getByIDCustomer();
-                    default -> System.out.println("Invalid choice");
+                    default -> System.out.println("Данный выбор недоступен");
                 }
             } catch (IndexOutOfBoundsException e) {
                 System.out.println(e.getMessage());
@@ -41,6 +44,9 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Позволяет добавлять покупателя
+     */
     private void addCustomer() {
         System.out.println("Введите имя покупателя: ");
         customerName = scanner.nextLine();
@@ -48,11 +54,17 @@ public class CustomerController {
         System.out.println(view);
     }
 
+    /**
+     * Показывает всех покупателей
+     */
     private void getAllCustomers() {
         String list = customerService.getAll().toString();
         System.out.println(list);
     }
 
+    /**
+     * Ищет покупателя по ID
+      */
     private void getByIDCustomer() {
         try {
             System.out.println("Введите ID покупателя");
