@@ -1,4 +1,4 @@
-package services.OrderService;
+package services.OrderServices;
 
 public interface OrderConstants {
     String NEW = "Заказ успешно создан! Скоро начнём собирать...";
