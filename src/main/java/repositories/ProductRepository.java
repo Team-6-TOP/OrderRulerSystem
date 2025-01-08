@@ -1,8 +1,10 @@
 package repositories;
-//Для сдачи дз
+
 import models.ProductModel;
 import models.ProductCategory;
 import exceptions.ProductNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,6 +18,7 @@ import java.util.List;
  * Репозиторий для работы с данными товаров.
  */
 public class ProductRepository {
+    private static final Logger logger = LoggerFactory.getLogger(ProductRepository.class);
     private final String fileName = "products.txt";
 
     /**
@@ -30,7 +33,9 @@ public class ProductRepository {
                     product.getPrice() + ";" +
                     product.getCategory().name() + System.lineSeparator();
             writer.write(productData);
+            logger.info("Товар сохранен: {}", product);
         } catch (IOException e) {
+            logger.error("Ошибка при сохранении продукта: {}", e.getMessage());
             throw new RuntimeException("Ошибка при сохранении продукта: " + e.getMessage());
         }
     }
@@ -58,7 +63,9 @@ public class ProductRepository {
                     products.add(new ProductModel(id, name, price, category));
                 }
             }
+            logger.info("Загружено продуктов: {}", products.size());
         } catch (IOException e) {
+            logger.error("Ошибка при загрузке продуктов: {}", e.getMessage());
             throw new RuntimeException("Ошибка при загрузке продуктов: " + e.getMessage());
         }
         return products;
@@ -71,6 +78,7 @@ public class ProductRepository {
      * @return Найденный товар.
      */
     public ProductModel findById(int id) {
+        logger.info("Поиск товара по ID: {}", id);
         return loadAll().stream()
                 .filter(product -> product.getId() == id)
                 .findFirst()

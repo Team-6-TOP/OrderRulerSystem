@@ -1,15 +1,15 @@
 package controllers;
 
 import models.OrderModel;
-import services.OrderService.OrderService;
+import services.OrderService;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class OrderController {
-    private final services.OrderService.OrderService orderService;
+    private final services.OrderService orderService;
 
-    public OrderController(services.OrderService.OrderService orderService) {
+    public OrderController(services.OrderService orderService) {
         this.orderService = orderService;
     }
 
