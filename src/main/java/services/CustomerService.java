@@ -14,13 +14,10 @@ public class CustomerService {
 
     /**
      * Добавляет покупателя
-     * @param name
-     * @return добавленного покупателя
+     * @param customerModel
      */
-    public CustomerModel addCustomer(String name) {
-        CustomerModel newCustomer = new CustomerModel(null, name, null);
-        CustomerModel savedCustomer = customerRepository.save(newCustomer);
-        return savedCustomer;
+    public void addCustomer(CustomerModel customerModel) {
+        customerRepository.saveCustomer(customerModel);
     }
 
     /**
@@ -36,7 +33,7 @@ public class CustomerService {
       * @param id
      * @return найденного по ID покупателя
      */
-    public CustomerModel getById(Integer id) {
+    public CustomerModel getById(int id) {
         return customerRepository.findById(id);
     }
 }
