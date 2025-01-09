@@ -4,54 +4,74 @@ import models.CustomerModel;
 import exceptions.CustomerNotFoundException;
 import models.Enums.CustomerType;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class CustomerRepository {
-    private final List<CustomerModel> customers;
-    private int countID;
-    Scanner scanner = new Scanner(System.in);
+    private final String customerFile = "customers.txt";
 
-    public CustomerRepository() {
-        this.customers = new ArrayList<>();
-        this.countID = 0;
-    }
-
-    public CustomerModel save(CustomerModel customer) {
-        customer.setId(++countID);
-        System.out.println("Выберите тип покупателя: \n1 - новый покупатель, \n2 - постоянный покупатель, " +
-                "\n3 - VIP-клиент");
-
-        CustomerType type1 = CustomerType.NEW;
-        CustomerType type2 = CustomerType.REGULAR;
-        CustomerType type3 = CustomerType.VIP;
-
-        String customerType = scanner.nextLine();
-
-        customerType = switch (customerType) {
-            case "1" -> CustomerType.NEW.getType();
-            case "2" -> CustomerType.REGULAR.getType();
-            case "3" -> CustomerType.VIP.getType();
-            default -> "Такого типа покупателя не существует";
-        };
-        customer.setType(customerType);
-
-        if (customers.add(customer)) {
-            return customer;
+    /**
+     * Сохраняет покупателя в файл
+     *
+     * @param customer
+     */
+    public void saveCustomer(CustomerModel customer) {
+        try (FileWriter customerFileWriter = new FileWriter(customerFile, true)) {
+            String customerData = customer.getId() + ";"
+                    + customer.getName() + ";"
+                    + customer.getType() + System.lineSeparator();
+            customerFileWriter.write(customerData);
+        } catch (IOException e) {
+            throw new RuntimeException("Произошла ошибка при сохранении покупателя! " + e.getMessage());
         }
-        return null;
-
     }
 
+    /**
+     * Показывает всех сохраненных покупателей
+     *
+     * @return покупателей
+     */
     public List<CustomerModel> findAllCustomers() {
+        List<CustomerModel> customers = new ArrayList<>();
+        try {
+            Path customerPath = Paths.get(customerFile);
+
+            if (!Files.exists(customerPath)) {
+                Files.createFile(customerPath);
+            }
+
+            List<String> customerLines = Files.readAllLines(customerPath);
+            for (String customerLine : customerLines) {
+                String[] customerParts = customerLine.split(";");
+                if (customerParts.length == 3) {
+                    int customerID = Integer.parseInt(customerParts[0]);
+                    String customerName = customerParts[1];
+                    CustomerType customerType = CustomerType.valueOf(customerParts[2]);
+                    customers.add(new CustomerModel(customerID, customerName, customerType));
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Произошла ошибка при загрузке покупателей! " + e.getMessage());
+        }
         return customers;
     }
 
-    public CustomerModel findById(Integer id) {
-        if (id <= 0 || id > customers.size()) {
-            throw new CustomerNotFoundException("Такой покупатель не найден с ID: " + id);
-        }
-        return customers.get(id - 1);
+    /**
+     * Ищет покупателя по ID
+     *
+     * @param id покупателя
+     * @return возвращает найденного по заданному ID покупателя
+     */
+    public CustomerModel findById(int id) {
+        return findAllCustomers().stream()
+                .filter(customerModel -> customerModel.getId() == id)
+                .findFirst()
+                .orElseThrow(() ->
+                        new CustomerNotFoundException("Покупатель с ID " + id + " не найден! Попробуйте ещё раз."));
     }
 }
