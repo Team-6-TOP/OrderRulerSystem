@@ -1,18 +1,28 @@
 package controllers;
 
 import models.OrderModel;
+
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import services.OrderService;
 import java.util.InputMismatchException;
+
+import services.OrderService;
+
+
 import java.util.List;
 import java.util.Scanner;
 
 public class OrderController {
+
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
     private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
+    private final services.OrderService orderService;
+
+    public OrderController(services.OrderService orderService) {
+
         this.orderService = orderService;
     }
 

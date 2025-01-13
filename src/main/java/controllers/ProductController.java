@@ -1,8 +1,10 @@
 package controllers;
-//Для сдачи дз
+
 import models.ProductModel;
 import models.ProductCategory;
 import services.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Scanner;
@@ -11,6 +13,7 @@ import java.util.Scanner;
  * Контроллер для управления товарами.
  */
 public class ProductController {
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
 
     /**
@@ -28,12 +31,12 @@ public class ProductController {
     public void showMenu() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("===== Управление товарами =====");
-            System.out.println("1. Добавить товар");
-            System.out.println("2. Показать все товары");
-            System.out.println("3. Найти товар по ID");
-            System.out.println("0. Назад");
-            System.out.print("Выберите действие: ");
+            logger.info("===== Управление товарами =====");
+            logger.info("1. Добавить товар");
+            logger.info("2. Показать все товары");
+            logger.info("3. Найти товар по ID");
+            logger.info("0. Назад");
+            logger.info("Выберите действие: ");
             int choice = scanner.nextInt();
             if (choice == 0) break;
 
@@ -41,7 +44,7 @@ public class ProductController {
                 case 1 -> addProduct();
                 case 2 -> showAllProducts();
                 case 3 -> findProductById();
-                default -> System.out.println("Некорректный выбор. Попробуйте еще раз.");
+                default -> logger.warn("Некорректный выбор. Попробуйте еще раз.");
             }
         }
     }
@@ -51,7 +54,7 @@ public class ProductController {
      */
     private void showAllProducts() {
         List<ProductModel> products = productService.getAllProducts();
-        products.forEach(System.out::println);
+        products.forEach(product -> logger.info("Товар: {}", product));
     }
 
     /**
@@ -59,23 +62,22 @@ public class ProductController {
      */
     private void addProduct() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Введите название товара: ");
+        logger.info("Введите название товара: ");
         String name = scanner.nextLine();
-        System.out.print("Введите цену товара: ");
+        logger.info("Введите цену товара: ");
         double price = scanner.nextDouble();
         scanner.nextLine();
-        System.out.print("Введите категорию товара - FOOD, ELECTRONICS, CLOTHING: ");
+        logger.info("Введите категорию товара - FOOD, ELECTRONICS, CLOTHING: ");
         String categoryInput = scanner.nextLine().toUpperCase();
 
         if (!ProductCategory.isValidCategory(categoryInput)) {
-            System.out.println("Некорректная категория. Выберите что-то из: FOOD, ELECTRONICS, CLOTHING.");
+            logger.warn("Некорректная категория. Выберите что-то из: FOOD, ELECTRONICS, CLOTHING.");
             return;
         }
 
-        ProductModel product = new ProductModel
-                (generateProductId(), name, price, ProductCategory.valueOf(categoryInput));
+        ProductModel product = new ProductModel(generateProductId(), name, price, ProductCategory.valueOf(categoryInput));
         productService.addProduct(product);
-        System.out.println("Товар добавлен: " + product);
+        logger.info("Товар добавлен: {}", product);
     }
 
     /**
@@ -83,14 +85,15 @@ public class ProductController {
      */
     private void findProductById() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Введите ID товара для поиска: ");
+        logger.info("Введите ID товара для поиска: ");
         int id = scanner.nextInt();
+        logger.info("Поиск товара с ID: {}", id);
 
         try {
             ProductModel product = productService.getProductById(id);
-            System.out.println("Найденный товар: " + product);
+            logger.info("Найденный товар: {}", product);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.error("Ошибка при поиске товара: {}", e.getMessage());
         }
     }
 
