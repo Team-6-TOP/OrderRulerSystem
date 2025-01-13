@@ -3,6 +3,8 @@ package repositories;
 import models.CustomerModel;
 import exceptions.CustomerNotFoundException;
 import models.Enums.CustomerType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerRepository {
+    private static final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
     private final String customerFile = "customers.txt";
 
     /**
@@ -26,7 +29,9 @@ public class CustomerRepository {
                     + customer.getName() + ";"
                     + customer.getType() + System.lineSeparator();
             customerFileWriter.write(customerData);
+            logger.info("Покупатель сохранен: {}", customer);
         } catch (IOException e) {
+            logger.error("Произошла ошибка при сохранении покупателя! {}", e.getMessage());
             throw new RuntimeException("Произошла ошибка при сохранении покупателя! " + e.getMessage());
         }
     }
@@ -56,6 +61,7 @@ public class CustomerRepository {
                 }
             }
         } catch (IOException e) {
+            logger.error("Произошла ошибка при загрузке покупателей! {}", e.getMessage());
             throw new RuntimeException("Произошла ошибка при загрузке покупателей! " + e.getMessage());
         }
         return customers;

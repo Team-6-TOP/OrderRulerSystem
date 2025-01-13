@@ -3,12 +3,16 @@ package controllers;
 import exceptions.CustomerNotFoundException;
 import models.CustomerModel;
 import models.Enums.CustomerType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import services.CustomerService;
+
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class CustomerController {
+    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
     private final CustomerService customerService;
 
     public CustomerController(CustomerService customerService) {
@@ -35,20 +39,21 @@ public class CustomerController {
                     case 1 -> addCustomer();
                     case 2 -> getAllCustomers();
                     case 3 -> getByIDCustomer();
-                    default -> System.out.println("Данный выбор недоступен");
+                    default -> logger.warn("Данный выбор недоступен");
                 }
             } catch (IndexOutOfBoundsException e) {
-                System.out.println(e.getMessage());
+                logger.error(e.getMessage());
             } catch (InputMismatchException e) {
-                System.out.println("Пожалуйста, введите корректное число.");
+                logger.warn("Пожалуйста, введите корректное число.");
             }
         }
     }
 
     /**
-     * Позволяет добавлять покупателя
+     * Позволяет добавить покупателя
      */
     private void addCustomer() {
+        logger.debug("Происходит добавление покупателя:");
         Scanner sc = new Scanner(System.in);
         System.out.println("Введите имя покупателя: ");
         String customerName = sc.nextLine();
@@ -56,35 +61,37 @@ public class CustomerController {
         String customerTypeChoice = sc.nextLine().toUpperCase();
 
         if (!CustomerType.isCorrectType(customerTypeChoice)) {
-            System.out.println("Неверный тип");
+            logger.error("Неверный тип");
         }
         CustomerModel customer = new CustomerModel(generateCustomerId(), customerName,
                 CustomerType.valueOf(customerTypeChoice));
         customerService.addCustomer(customer);
-        System.out.println(customer);
+        logger.info(String.valueOf(customer));
     }
 
     /**
-     * Показывает всех покупателей
+     * Показывает список всех покупателей
      */
     private void getAllCustomers() {
+        logger.debug("Производится поиск списка покупателей:");
         List<CustomerModel> customers = customerService.getAll();
-        System.out.println(customers);
+        logger.info(customers.toString());
     }
 
     /**
      * Ищет покупателя по ID
      */
     private void getByIDCustomer() {
+        logger.debug("Происходит поиск покупателя по id:");
         Scanner idScan = new Scanner(System.in);
         System.out.println("Введите ID покупателя");
         int id = idScan.nextInt();
 
         try {
             CustomerModel customer = customerService.getById(id);
-            System.out.println(customer);
+            logger.info(String.valueOf(customer));
         } catch (CustomerNotFoundException e) {
-            System.out.println(e.getMessage());
+            logger.warn(e.getMessage());
         }
     }
 
