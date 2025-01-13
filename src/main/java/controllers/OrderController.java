@@ -1,12 +1,15 @@
 package controllers;
 
 import models.OrderModel;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import services.OrderService;
-
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class OrderController {
+    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
     private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
@@ -24,16 +27,25 @@ public class OrderController {
             int peek = orderSc.nextInt();
             if (peek == 0) break;
 
-            switch (peek) {
-                case 1 -> addAnOrder();
-                case 2 -> showAllOrders();
-                default -> System.out.println("Действие выбрано неверно. Попробуйте ещё раз.");
+            orderSc.nextLine();
+            try {
+                switch (peek) {
+                    case 1 -> addAnOrder();
+                    case 2 -> showAllOrders();
+                    default -> logger.warn("Действие выбрано неверно. Попробуйте ещё раз.");
+                }
+            } catch (IndexOutOfBoundsException e) {
+                logger.error(e.getMessage());
+            } catch (InputMismatchException e) {
+                logger.warn("Пожалуйста, выберите корректное действие.");
             }
         }
     }
 
     private void showAllOrders() {
+        logger.debug("Загружается список всех заказов...");
         List<OrderModel> orders = orderService.getAllOrders();
+        logger.info(orders.toString());
         orders.forEach(System.out::println);
     }
 

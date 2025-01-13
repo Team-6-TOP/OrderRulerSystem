@@ -1,9 +1,11 @@
 package repositories;
 
+import controllers.OrderController;
 import exceptions.OrderNotFound;
 import models.Enums.OrderCategory;
 import models.OrderModel;
-
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class OrderRepository {
+    private static final Logger logger = LoggerFactory.getLogger(OrderRepository.class);
     private final String orderFile = "orders.txt";
 
     public void saveAnOrder(OrderModel order) {
@@ -22,7 +25,9 @@ public class OrderRepository {
                     + order.getOrderCustomer() + ", "
                     + order.getOrderID() + ".";
             orderFileWriter.write(orderData);
+            logger.info("Заказ сохранён! ");
         } catch (IOException e) {
+            logger.error("Произошла ошибка во время сохранения заказа! ");
             throw new RuntimeException("Произошла ошибка при сохранении заказа! " + e.getMessage());
         }
     }
@@ -50,6 +55,7 @@ public class OrderRepository {
                 }
             }
         } catch (IOException e) {
+            logger.error("Произошла ошибка во время загрузки заказов! ");
             throw new RuntimeException("Произошла ошибка при загрузке заказов! " + e.getMessage());
         }
         return orders;
