@@ -1,24 +1,22 @@
 package models.Enums;
 
 public enum CustomerType {
-    NEW ("Новый покупатель"),
-    REGULAR ("Постоянный покупатель"),
-    VIP ("VIP-покупатель");
+    NEW,
+    REGULAR,
+    VIP;
 
-    private final String type;
-
-    CustomerType(String type) {
-        this.type = type;
-    }
-
-    public String getType() {
-        return type;
-    }
-    public static CustomerType fromType (String type) {
-        for (CustomerType types : CustomerType.values()) {
-            if (types.getType().equalsIgnoreCase(type)) {
-                return types;
-            }
-        } throw new IllegalArgumentException("Такого типа не существует");
+    /**
+     * Проверяет правильно ли выбран тип покупателя
+     *
+     * @param customerTypeName
+     * @return истина, если категория верная, а ложь, если неправильно выбранная
+     */
+    public static boolean isCorrectType(String customerTypeName) {
+        try {
+            CustomerType.valueOf(customerTypeName);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 }

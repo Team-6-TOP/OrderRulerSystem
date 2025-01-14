@@ -1,24 +1,26 @@
 package models;
 
+import models.Enums.CustomerType;
+
 import java.util.Objects;
 
 public class CustomerModel {
-    private Integer ID;
+    private int id;
     private String name;
-    private String type;
+    private CustomerType type;
 
-    public CustomerModel(Integer ID, String name, String type) {
-        this.ID = ID;
+    public CustomerModel(int id, String name, CustomerType type) {
+        this.id = id;
         this.name = name;
         this.type = type;
     }
 
-    public Integer getID() {
-        return ID;
+    public Integer getId() {
+        return id;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -29,11 +31,11 @@ public class CustomerModel {
         this.name = name;
     }
 
-    public String getType() {
+    public CustomerType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(CustomerType type) {
         this.type = type;
     }
 
@@ -42,17 +44,17 @@ public class CustomerModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CustomerModel that = (CustomerModel) o;
-        return Objects.equals(ID, that.ID) && Objects.equals(name, that.name) && Objects.equals(type, that.type);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && type == that.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, name, type);
+        return Objects.hash(id, name, type);
     }
 
     @Override
     public String toString() {
-        return "Customer: " + "ID - " + ID +
+        return "Customer: " + "ID - " + id +
                 ", " + name + ", " + type;
 
     }

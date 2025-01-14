@@ -12,17 +12,28 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public CustomerModel addCustomer(String name) {
-        CustomerModel newCustomer = new CustomerModel(null, name, null);
-        CustomerModel savedCustomer = customerRepository.save(newCustomer);
-        return savedCustomer;
+    /**
+     * Добавляет покупателя
+     * @param customerModel
+     */
+    public void addCustomer(CustomerModel customerModel) {
+        customerRepository.saveCustomer(customerModel);
     }
 
+    /**
+     * Показывает список всех покупателей
+     * @return всех покупателей
+     */
     public List<CustomerModel> getAll() {
         return customerRepository.findAllCustomers();
     }
 
-    public CustomerModel getById(Integer id) {
+    /**
+     * Ищет покупателя по ID
+      * @param id
+     * @return найденного по ID покупателя
+     */
+    public CustomerModel getById(int id) {
         return customerRepository.findById(id);
     }
 }
