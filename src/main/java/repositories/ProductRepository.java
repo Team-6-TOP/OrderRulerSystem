@@ -1,7 +1,7 @@
 package repositories;
 
 import models.ProductModel;
-import models.ProductCategory;
+import Enums.ProductCategory;
 import exceptions.ProductNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,8 +1,7 @@
 package repositories;
 
-import controllers.OrderController;
 import exceptions.OrderNotFound;
-import models.Enums.OrderCategory;
+import Enums.OrderCategory;
 import models.OrderModel;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;

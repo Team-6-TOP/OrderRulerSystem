@@ -1,5 +1,7 @@
 package models;
 
+import Enums.ProductCategory;
+
 import java.util.Objects;
 
 /**

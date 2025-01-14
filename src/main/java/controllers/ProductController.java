@@ -1,7 +1,7 @@
 package controllers;
 
 import models.ProductModel;
-import models.ProductCategory;
+import Enums.ProductCategory;
 import services.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

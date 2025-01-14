@@ -1,6 +1,6 @@
 package models;
 
-import models.Enums.OrderCategory;
+import Enums.OrderCategory;
 
 import java.util.List;
 import java.util.Objects;
