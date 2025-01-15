@@ -1,4 +1,4 @@
-package models.Enums;
+package Enums;
 
 public enum OrderCategory {
     NEW,

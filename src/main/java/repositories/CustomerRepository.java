@@ -2,7 +2,7 @@ package repositories;
 
 import models.CustomerModel;
 import exceptions.CustomerNotFoundException;
-import models.Enums.CustomerType;
+import Enums.CustomerType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

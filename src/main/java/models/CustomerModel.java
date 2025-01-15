@@ -1,6 +1,6 @@
 package models;
 
-import models.Enums.CustomerType;
+import Enums.CustomerType;
 
 import java.util.Objects;
 
