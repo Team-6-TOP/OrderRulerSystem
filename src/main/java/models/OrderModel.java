@@ -13,7 +13,7 @@ public class OrderModel {
 
     public OrderModel(int orderID, String orderCustomer, List orderProduct, OrderCategory orderCategory) {
         this.orderID = orderID;
-        this.orderCustomer = orderCustomer;
+
         this.orderProduct = orderProduct;
         this.orderCategory = orderCategory;
     }
