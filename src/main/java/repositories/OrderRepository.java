@@ -1,33 +1,43 @@
 package repositories;
 
-import exceptions.OrderNotFound;
 import Enums.OrderCategory;
+import exceptions.OrderNotFound;
+import models.CustomerModel;
 import models.OrderModel;
-import org.slf4j.LoggerFactory;
+import models.ProductModel;
 import org.slf4j.Logger;
-import java.io.*;
+import org.slf4j.LoggerFactory;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class OrderRepository {
     private static final Logger logger = LoggerFactory.getLogger(OrderRepository.class);
     private final String orderFile = "orders.txt";
+    private final CustomerRepository customerRepository = new CustomerRepository();
+    private final ProductRepository productRepository = new ProductRepository();
 
     public void saveAnOrder(OrderModel order) {
         try (FileWriter orderFileWriter = new FileWriter(orderFile, true)) {
-            String orderData = order.getOrderCategory() + ", "
-                    + order.getOrderProduct() + ", "
-                    + order.getOrderCustomer() + ", "
-                    + order.getOrderID() + ".";
+            String orderData = order.getOrderID() + ";"
+                    + order.getOrderCustomer().getId() + ";"
+                    + order.getOrderCategory() + ";";
+            for (var product : order.getOrderProduct()) {
+                orderData += product.getId() + ",";
+            }
+            orderData = orderData.substring(0, orderData.length() - 1);
+            orderData += System.lineSeparator();
+
             orderFileWriter.write(orderData);
-            logger.info("Заказ сохранён! ");
+            logger.info("Заказ сохранён! ID заказа: {}", order.getOrderID());
         } catch (IOException e) {
-            logger.error("Произошла ошибка во время сохранения заказа! ");
-            throw new RuntimeException("Произошла ошибка при сохранении заказа! " + e.getMessage());
+            logger.error("Произошла ошибка во время сохранения заказа: {}", e.getMessage());
+            throw new RuntimeException("Ошибка при сохранении заказа: " + e.getMessage());
         }
     }
 
@@ -44,18 +54,25 @@ public class OrderRepository {
             List<String> orderLines = Files.readAllLines(orderPath);
             for (String orderLine : orderLines) {
                 String[] orderParts = orderLine.split(";");
-                if (orderParts.length == 4) {
+                if (orderParts.length >= 4) {
                     int orderID = Integer.parseInt(orderParts[0]);
-                    String orderProduct = orderParts[1];
-                    String orderCustomer = orderParts[2];
-                    OrderCategory orderCategory = OrderCategory.valueOf(orderParts[3]);
-                    orders.add(new OrderModel(orderID, orderProduct,
-                            Collections.singletonList(orderCustomer), orderCategory));
+                    int customerId = Integer.parseInt(orderParts[1]);
+                    OrderCategory orderCategory = OrderCategory.valueOf(orderParts[2]);
+                    List<ProductModel> orderProducts = new ArrayList<>();
+                    String[] productIds = orderParts[3].split(",");
+
+                    for (String productId : productIds) {
+                        int id = Integer.parseInt(productId);
+                        ProductModel product = productRepository.findById(id);
+                        orderProducts.add(product);
+                    }
+                    CustomerModel customer = customerRepository.findById(customerId);
+                    orders.add(new OrderModel(orderID, customer, orderProducts, orderCategory));
                 }
             }
         } catch (IOException e) {
-            logger.error("Произошла ошибка во время загрузки заказов! ");
-            throw new RuntimeException("Произошла ошибка при загрузке заказов! " + e.getMessage());
+            logger.error("Произошла ошибка во время загрузки заказов: {}", e.getMessage());
+            throw new RuntimeException("Ошибка при загрузке заказов: " + e.getMessage());
         }
         return orders;
     }

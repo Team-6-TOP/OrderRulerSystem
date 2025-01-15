@@ -7,11 +7,12 @@ import java.util.Objects;
 
 public class OrderModel {
     private final int orderID;
-    private String orderCustomer;
-    private List orderProduct;
+    private CustomerModel orderCustomer;
+    private List<ProductModel> orderProduct;
     private OrderCategory orderCategory;
 
-    public OrderModel(int orderID, String orderCustomer, List orderProduct, OrderCategory orderCategory) {
+    public OrderModel(int orderID, CustomerModel orderCustomer,
+                      List<ProductModel> orderProduct, OrderCategory orderCategory) {
         this.orderID = orderID;
         this.orderCustomer = orderCustomer;
         this.orderProduct = orderProduct;
@@ -22,11 +23,11 @@ public class OrderModel {
         return orderID;
     }
 
-    public String getOrderCustomer() {
+    public CustomerModel getOrderCustomer() {
         return orderCustomer;
     }
 
-    public List getOrderProduct() {
+    public List<ProductModel> getOrderProduct() {
         return orderProduct;
     }
 
@@ -39,8 +40,8 @@ public class OrderModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderModel that = (OrderModel) o;
-        return orderID == that.orderID && Objects.equals(orderCustomer, that.orderCustomer)
-                && Objects.equals(orderProduct, that.orderProduct) && orderCategory == that.orderCategory;
+        return orderID == that.orderID && orderCustomer.equals(that.orderCustomer)
+                && orderProduct.equals(that.orderProduct) && orderCategory == that.orderCategory;
     }
 
     @Override
