@@ -14,7 +14,7 @@ public class OrderModel {
     public OrderModel(int orderID, CustomerModel orderCustomer,
                       List<ProductModel> orderProduct, OrderCategory orderCategory) {
         this.orderID = orderID;
-        this.orderCustomer = orderCustomer;
+
         this.orderProduct = orderProduct;
         this.orderCategory = orderCategory;
     }

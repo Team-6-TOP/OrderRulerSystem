@@ -1,6 +1,8 @@
 package controllers;
 
-import Enums.OrderCategory;
+
+import models.Enums.OrderCategory;
+
 import models.OrderModel;
 import models.ProductModel;
 import services.CustomerService;
@@ -64,7 +66,9 @@ public class OrderController {
             products.add(product);
         }
 
-        OrderModel order = new OrderModel(orderIdGenerator(), customer, products, OrderCategory.NEW);
+
+        OrderModel order = new OrderModel(orderIdGenerator(), customer.getName(), products, OrderCategory.NEW);
+
         orderService.addOrder(order);
         System.out.println("Заказ создан: " + order);
     }
