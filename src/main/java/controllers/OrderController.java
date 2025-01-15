@@ -1,29 +1,25 @@
 package controllers;
 
+import Enums.OrderCategory;
 import models.OrderModel;
-
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
+import models.ProductModel;
+import services.CustomerService;
 import services.OrderService;
-import java.util.InputMismatchException;
+import services.ProductService;
 
-import services.OrderService;
-
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class OrderController {
-
-    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
     private final OrderService orderService;
+    private final CustomerService customerService;
+    private final ProductService productService;
 
-    public OrderController(OrderService orderService) {
-    private final services.OrderService orderService;
-
-    public OrderController(services.OrderService orderService) {
-
+    public OrderController(OrderService orderService, CustomerService customerService, ProductService productService) {
         this.orderService = orderService;
+        this.customerService = customerService;
+        this.productService = productService;
     }
 
     public void showOrderMenu() {
@@ -37,31 +33,40 @@ public class OrderController {
             int peek = orderSc.nextInt();
             if (peek == 0) break;
 
-            orderSc.nextLine();
-            try {
-                switch (peek) {
-                    case 1 -> addAnOrder();
-                    case 2 -> showAllOrders();
-                    default -> logger.warn("Действие выбрано неверно. Попробуйте ещё раз.");
-                }
-            } catch (IndexOutOfBoundsException e) {
-                logger.error(e.getMessage());
-            } catch (InputMismatchException e) {
-                logger.warn("Пожалуйста, выберите корректное действие.");
+            switch (peek) {
+                case 1 -> addAnOrder();
+                case 2 -> showAllOrders();
+                default -> System.out.println("Действие выбрано неверно. Попробуйте ещё раз.");
             }
         }
     }
 
     private void showAllOrders() {
-        logger.debug("Загружается список всех заказов...");
         List<OrderModel> orders = orderService.getAllOrders();
-        logger.info(orders.toString());
         orders.forEach(System.out::println);
     }
 
     private void addAnOrder() {
-        Scanner addProductSc = new Scanner(System.in);
-        System.out.println("Введите товары, что содержатся в заказе: ");
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Введите ID покупателя:");
+        int customerId = scanner.nextInt();
+        var customer = customerService.getById(customerId);
+
+        System.out.println("Введите ID товаров через запятую (1,2):");
+        scanner.nextLine();
+        String[] productIdsInput = scanner.nextLine().split(",");
+        List<ProductModel> products = new ArrayList<>();
+
+        for (String id : productIdsInput) {
+            int productId = Integer.parseInt(id.trim());
+            ProductModel product = productService.getProductById(productId);
+            products.add(product);
+        }
+
+        OrderModel order = new OrderModel(orderIdGenerator(), customer, products, OrderCategory.NEW);
+        orderService.addOrder(order);
+        System.out.println("Заказ создан: " + order);
     }
 
     private int orderIdGenerator() {

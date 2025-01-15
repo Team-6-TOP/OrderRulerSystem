@@ -8,9 +8,14 @@ import java.util.Scanner;
 public class MainController {
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
     private final ProductController productController;
+    private final CustomerController customerController;
+    private final OrderController orderController;
 
-    public MainController(ProductController productController) {
+    public MainController(ProductController productController, CustomerController customerController,
+                          OrderController orderController) {
         this.productController = productController;
+        this.customerController = customerController;
+        this.orderController = orderController;
     }
 
     public void run() {
@@ -32,8 +37,14 @@ public class MainController {
                     logger.info("Переход к меню управления товарами.");
                     productController.showMenu();
                 }
-                case 2 -> logger.warn("в разработке.");
-                case 3 -> logger.warn("в разработке 2х.");
+                case 2 -> {
+                    logger.info("Переход к меню управления покупателями.");
+                    customerController.customerMenu();
+                }
+                case 3 -> {
+                    logger.info("Переход к меню управления заказами.");
+                    orderController.showOrderMenu();
+                }
                 default -> logger.error("Некорректный выбор. Попробуйте еще раз.");
             }
         }
