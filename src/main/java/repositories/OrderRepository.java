@@ -25,7 +25,7 @@ public class OrderRepository {
     public void saveAnOrder(OrderModel order) {
         try (FileWriter orderFileWriter = new FileWriter(orderFile, true)) {
             String orderData = order.getOrderID() + ";"
-                    + order.getOrderCustomer().getId() + ";"
+                    + order.getOrderCustomer() + ";"
                     + order.getOrderCategory() + ";";
             for (var product : order.getOrderProduct()) {
                 orderData += product.getId() + ",";
@@ -67,7 +67,7 @@ public class OrderRepository {
                         orderProducts.add(product);
                     }
                     CustomerModel customer = customerRepository.findById(customerId);
-                    orders.add(new OrderModel(orderID, customer, orderProducts, orderCategory));
+                    orders.add(new OrderModel(orderID, customer.getId(), orderProducts, orderCategory));
                 }
             }
         } catch (IOException e) {

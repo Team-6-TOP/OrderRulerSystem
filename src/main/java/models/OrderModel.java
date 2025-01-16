@@ -7,11 +7,11 @@ import java.util.Objects;
 
 public class OrderModel {
     private final int orderID;
-    private CustomerModel orderCustomer;
+    private int orderCustomer;
     private List<ProductModel> orderProduct;
     private OrderCategory orderCategory;
 
-    public OrderModel(int orderID, CustomerModel orderCustomer,
+    public OrderModel(int orderID, int orderCustomer,
                       List<ProductModel> orderProduct, OrderCategory orderCategory) {
         this.orderID = orderID;
 
@@ -23,7 +23,7 @@ public class OrderModel {
         return orderID;
     }
 
-    public CustomerModel getOrderCustomer() {
+    public int getOrderCustomer() {
         return orderCustomer;
     }
 
@@ -40,8 +40,8 @@ public class OrderModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderModel that = (OrderModel) o;
-        return orderID == that.orderID && orderCustomer.equals(that.orderCustomer)
-                && orderProduct.equals(that.orderProduct) && orderCategory == that.orderCategory;
+        return orderID == that.orderID && orderCustomer == that.orderCustomer
+                && Objects.equals(orderProduct, that.orderProduct) && orderCategory == that.orderCategory;
     }
 
     @Override
@@ -51,10 +51,8 @@ public class OrderModel {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "orderID=" + orderID +
-                ", orderCustomer='" + orderCustomer + '\'' +
-                ", orderProduct=" + orderProduct +
-                '}';
+        return "New order: " + "\nOrder ID: " + orderID + "\nCustomer ID: " + orderCustomer + "\nOrder type: "
+                + orderCategory + "\nProduct ID: " + orderProduct
+                + "\n------------------------------------------";
     }
 }
