@@ -4,7 +4,6 @@ import Enums.OrderCategory;
 import exceptions.OrderNotFound;
 import models.CustomerModel;
 import models.OrderModel;
-import models.ProductModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,17 +19,18 @@ public class OrderRepository {
     private static final Logger logger = LoggerFactory.getLogger(OrderRepository.class);
     private final String orderFile = "orders.txt";
     private final CustomerRepository customerRepository = new CustomerRepository();
-    private final ProductRepository productRepository = new ProductRepository();
 
     public void saveAnOrder(OrderModel order) {
         try (FileWriter orderFileWriter = new FileWriter(orderFile, true)) {
             String orderData = order.getOrderID() + ";"
                     + order.getOrderCustomer() + ";"
                     + order.getOrderCategory() + ";";
-            for (var product : order.getOrderProduct()) {
-                orderData += product.getId() + ",";
+            for (Integer productId : order.getProductId()) {
+                orderData += productId + ",";
             }
-            orderData = orderData.substring(0, orderData.length() - 1);
+            if (!order.getProductId().isEmpty()) {
+                orderData = orderData.substring(0, orderData.length() - 1);
+            }
             orderData += System.lineSeparator();
 
             orderFileWriter.write(orderData);
@@ -58,16 +58,13 @@ public class OrderRepository {
                     int orderID = Integer.parseInt(orderParts[0]);
                     int customerId = Integer.parseInt(orderParts[1]);
                     OrderCategory orderCategory = OrderCategory.valueOf(orderParts[2]);
-                    List<ProductModel> orderProducts = new ArrayList<>();
+                    List<Integer> orderProductIds = new ArrayList<>();
                     String[] productIds = orderParts[3].split(",");
-
                     for (String productId : productIds) {
-                        int id = Integer.parseInt(productId);
-                        ProductModel product = productRepository.findById(id);
-                        orderProducts.add(product);
+                        orderProductIds.add(Integer.parseInt(productId));
                     }
                     CustomerModel customer = customerRepository.findById(customerId);
-                    orders.add(new OrderModel(orderID, customer.getId(), orderProducts, orderCategory));
+                    orders.add(new OrderModel(orderID, customer.getId(), orderProductIds, orderCategory));
                 }
             }
         } catch (IOException e) {

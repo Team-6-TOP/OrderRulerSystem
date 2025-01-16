@@ -84,4 +84,36 @@ public class ProductRepository {
                 .findFirst()
                 .orElseThrow(() -> new ProductNotFoundException("Товар с ID: " + id + " не найден."));
     }
+
+    public void deleteById(int id) {
+        List<ProductModel> products = loadAll();
+        ProductModel productToDelete = products.stream()
+                .filter(product -> product.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new ProductNotFoundException("Товар с ID: " + id + " не найден."));
+
+        products.remove(productToDelete);
+
+        for (int i = 0; i < products.size(); i++) {
+            ProductModel product = products.get(i);
+            int newId = i + 1;
+            if (product.getId() != newId) {
+                products.set(i, new ProductModel(newId, product.getName(), product.getPrice(), product.getCategory()));
+            }
+        }
+
+        try (FileWriter writer = new FileWriter(fileName, false)) {
+            for (ProductModel product : products) {
+                String productData = product.getId() + ";" +
+                        product.getName() + ";" +
+                        product.getPrice() + ";" +
+                        product.getCategory().name() + System.lineSeparator();
+                writer.write(productData);
+            }
+            logger.info("Продукт с ID {} удален", id);
+        } catch (IOException e) {
+            logger.error("Ошибка при удалении продукта: {}", e.getMessage());
+            throw new RuntimeException("Ошибка при удалении продукта: " + e.getMessage());
+        }
+    }
 }

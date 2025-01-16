@@ -7,15 +7,15 @@ import java.util.Objects;
 
 public class OrderModel {
     private final int orderID;
-    private int orderCustomer;
-    private List<ProductModel> orderProduct;
-    private OrderCategory orderCategory;
+    private final int orderCustomer;
+    private final List<Integer> productId;
+    private final OrderCategory orderCategory;
 
     public OrderModel(int orderID, int orderCustomer,
-                      List<ProductModel> orderProduct, OrderCategory orderCategory) {
+                      List<Integer> productId, OrderCategory orderCategory) {
         this.orderID = orderID;
-
-        this.orderProduct = orderProduct;
+        this.orderCustomer = orderCustomer;
+        this.productId = productId;
         this.orderCategory = orderCategory;
     }
 
@@ -27,8 +27,8 @@ public class OrderModel {
         return orderCustomer;
     }
 
-    public List<ProductModel> getOrderProduct() {
-        return orderProduct;
+    public List<Integer> getProductId() {
+        return productId;
     }
 
     public OrderCategory getOrderCategory() {
@@ -41,18 +41,18 @@ public class OrderModel {
         if (o == null || getClass() != o.getClass()) return false;
         OrderModel that = (OrderModel) o;
         return orderID == that.orderID && orderCustomer == that.orderCustomer
-                && Objects.equals(orderProduct, that.orderProduct) && orderCategory == that.orderCategory;
+                && productId.equals(that.productId) && orderCategory == that.orderCategory;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderID, orderCustomer, orderProduct, orderCategory);
+        return Objects.hash(orderID, orderCustomer, productId, orderCategory);
     }
 
     @Override
     public String toString() {
         return "New order: " + "\nOrder ID: " + orderID + "\nCustomer ID: " + orderCustomer + "\nOrder type: "
-                + orderCategory + "\nProduct ID: " + orderProduct
+                + orderCategory + "\nProduct ID: " + productId
                 + "\n------------------------------------------";
     }
 }
