@@ -2,7 +2,6 @@ package controllers;
 
 import Enums.OrderCategory;
 import models.OrderModel;
-import models.ProductModel;
 import services.CustomerService;
 import services.OrderService;
 import services.ProductService;
@@ -56,15 +55,19 @@ public class OrderController {
         System.out.println("Введите ID товаров через запятую (1,2):");
         scanner.nextLine();
         String[] productIdsInput = scanner.nextLine().split(",");
-        List<ProductModel> products = new ArrayList<>();
+        List<Integer> productIds = new ArrayList<>();
 
         for (String id : productIdsInput) {
             int productId = Integer.parseInt(id.trim());
-            ProductModel product = productService.getProductById(productId);
-            products.add(product);
+
+            if (productService.getProductById(productId) == null) {
+                System.out.println("Продукт с ID " + productId + " не найден! Попробуйте другой ID.");
+                return;
+            }
+            productIds.add(productId);
         }
 
-        OrderModel order = new OrderModel(orderIdGenerator(), customer.getId(), products, OrderCategory.NEW);
+        OrderModel order = new OrderModel(orderIdGenerator(), customer.getId(), productIds, OrderCategory.NEW);
         orderService.addOrder(order);
         System.out.println("Заказ создан: " + order);
     }
