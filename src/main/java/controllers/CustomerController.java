@@ -25,10 +25,11 @@ public class CustomerController {
     public void customerMenu() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("===== Выберите опцию =====");
-            System.out.println("1.Добавить покупателя");
-            System.out.println("2.Показать список всех покупателей");
-            System.out.println("3.Поиск покупателя по ID");
+            logger.info("===== Выберите опцию =====");
+            logger.info("1.Добавить покупателя");
+            logger.info("2.Показать список всех покупателей");
+            logger.info("3.Поиск покупателя по ID");
+            logger.info("0.Назад в основное меню");
             int choice = scanner.nextInt();
             if (choice == 0) {
                 break;
@@ -55,9 +56,9 @@ public class CustomerController {
     private void addCustomer() {
         logger.debug("Происходит добавление покупателя:");
         Scanner sc = new Scanner(System.in);
-        System.out.println("Введите имя покупателя: ");
+        logger.info("Введите имя покупателя: ");
         String customerName = sc.nextLine();
-        System.out.println("Введите тип покупателя: NEW, REGULAR, VIP");
+        logger.info("Введите тип покупателя: NEW, REGULAR, VIP");
         String customerTypeChoice = sc.nextLine().toUpperCase();
 
         if (!CustomerType.isCorrectType(customerTypeChoice)) {
@@ -73,7 +74,7 @@ public class CustomerController {
      * Показывает список всех покупателей
      */
     private void getAllCustomers() {
-        logger.debug("Производится поиск списка покупателей:");
+        logger.debug("Выводится список покупателей:");
         List<CustomerModel> customers = customerService.getAll();
         logger.info(customers.toString());
     }
@@ -84,7 +85,7 @@ public class CustomerController {
     private void getByIDCustomer() {
         logger.debug("Происходит поиск покупателя по id:");
         Scanner idScan = new Scanner(System.in);
-        System.out.println("Введите ID покупателя");
+        logger.info("Введите ID покупателя");
         int id = idScan.nextInt();
 
         try {

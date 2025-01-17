@@ -54,8 +54,9 @@ public class CustomerModel {
 
     @Override
     public String toString() {
-        return "Customer: " + "ID - " + id +
-                ", " + name + ", " + type;
+        return "\nCustomer: " + "\nID - " + id +
+                ", " + "\nИмя - " + name + ", " + "\nТип покупателя - " + type
+                + "\n------------------------------------------";
 
     }
 }
