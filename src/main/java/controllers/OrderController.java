@@ -17,6 +17,7 @@ public class OrderController {
 
     /**
      * Конструктор для контроллера
+     *
      * @param orderService
      */
 
@@ -78,20 +79,30 @@ public class OrderController {
         scanner.nextLine();
         String[] productIdsInput = scanner.nextLine().split(",");
         List<Integer> productIds = new ArrayList<>();
-        logger.info("Введите категорию заказа (NEW, PROCESSED, COMPLETED, CANCELLED): ");
+        logger.info("Введите категорию заказа (NEW, PROCESSING, COMPLETED, CANCELLED): ");
         String orderCategory = scanner.nextLine().toUpperCase();
 
-        if (!OrderCategory.isCorrectCategory(orderCategory)) {
-            logger.warn("Неверно выбрана категория! Выберите что-то из: NEW, PROCESSED, COMPLETED, CANCELLED.");
-            return;
+        for (String id : productIdsInput) {
+            productIds.add(Integer.parseInt(id.trim()));
+
+            if (!OrderCategory.isCorrectCategory(orderCategory)) {
+                logger.warn("Неверно выбрана категория! Выберите что-то из: NEW, PROCESSING, COMPLETED, CANCELLED.");
+                return;
+            }
+
+            try {
+                orderService.addOrder(customerId, productIds);
+                logger.info("Заказ создан.");
+            } catch (Exception e) {
+                logger.error("Произошла ошибка при создании заказа! Пожалуйста, попробуйте ещё раз.");
+            }
+
+            OrderModel order = new OrderModel(orderService.orderIdGenerator(), customerId, productIds,
+                    OrderCategory.valueOf(orderCategory));
+            orderService.addOrder(customerId, productIds);
+            logger.info("Заказ создан: {}", order);
         }
-
-        OrderModel order = new OrderModel(orderService.orderIdGenerator(), customerId, productIds,
-                OrderCategory.valueOf(orderCategory));
-        orderService.addOrder(customerId, productIds);
-        logger.info("Заказ создан: {}", order);
     }
-
 
     /**
      * Метод для поиска заказа по ID

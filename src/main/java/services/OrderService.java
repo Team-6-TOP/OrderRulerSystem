@@ -32,6 +32,15 @@ public class OrderService {
      */
 
     public void addOrder(int customerId, List<Integer> productIds) {
+        if (customerService.getById(customerId) == null) {
+            throw new IllegalArgumentException("Покупатель с ID " + customerId + " не найден.");
+        }
+        for (Integer productId : productIds) {
+            if (productService.getProductById(productId) == null) {
+                throw new IllegalArgumentException("Продукт с ID " + productId + " не найден.");
+            }
+        }
+
         OrderModel order = new OrderModel(orderIdGenerator(), customerId, productIds, OrderCategory.NEW);
         orderRepository.saveAnOrder(order);
     }
