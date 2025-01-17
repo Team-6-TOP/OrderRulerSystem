@@ -13,25 +13,28 @@ public class CustomerService {
     }
 
     /**
-     * Добавляет покупателя
-     * @param customerModel
+     * Добавляет покупателя.
+     *
+     * @param customerModel модель покупателя для добавления.
      */
     public void addCustomer(CustomerModel customerModel) {
         customerRepository.saveCustomer(customerModel);
     }
 
     /**
-     * Показывает список всех покупателей
-     * @return всех покупателей
+     * Показывает список всех покупателей.
+     *
+     * @return всех покупателей.
      */
     public List<CustomerModel> getAll() {
         return customerRepository.findAllCustomers();
     }
 
     /**
-     * Ищет покупателя по ID
-      * @param id
-     * @return найденного по ID покупателя
+     * Ищет покупателя по ID.
+     *
+     * @param id здесь ID покупателя.
+     * @return найденного по ID покупателя.
      */
     public CustomerModel getById(int id) {
         return customerRepository.findById(id);

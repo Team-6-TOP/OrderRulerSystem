@@ -18,14 +18,19 @@ public class CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
     private final String customerFile;
 
+    /**
+     * Конструктор принимающий название файла для работы с покупателями.
+     *
+     * @param customerFile название файла для сохранения.
+     */
     public CustomerRepository(String customerFile) {
         this.customerFile = customerFile;
     }
 
     /**
-     * Сохраняет покупателя в файл
+     * Сохраняет покупателя в файл.
      *
-     * @param customer
+     * @param customer покупатели для сохранения.
      */
     public void saveCustomer(CustomerModel customer) {
         try (FileWriter customerFileWriter = new FileWriter(customerFile, true)) {
@@ -41,9 +46,9 @@ public class CustomerRepository {
     }
 
     /**
-     * Показывает всех сохраненных покупателей
+     * Показывает всех сохраненных покупателей.
      *
-     * @return покупателей
+     * @return покупателей.
      */
     public List<CustomerModel> findAllCustomers() {
         List<CustomerModel> customers = new ArrayList<>();
@@ -72,10 +77,10 @@ public class CustomerRepository {
     }
 
     /**
-     * Ищет покупателя по ID
+     * Ищет покупателя по ID.
      *
-     * @param id покупателя
-     * @return возвращает найденного по заданному ID покупателя
+     * @param id покупателя.
+     * @return возвращает найденного по ID покупателя.
      */
     public CustomerModel findById(int id) {
         return findAllCustomers().stream()
