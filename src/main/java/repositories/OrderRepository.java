@@ -26,7 +26,7 @@ public class OrderRepository {
     private final CustomerRepository customerRepository = new CustomerRepository("customers.txt");
 
     public void saveAnOrder(OrderModel order) {
-        try (FileWriter orderFileWriter = new FileWriter(orderFile, true)) {
+        try (FileWriter orderFileWriter = new FileWriter(orderFile)) {
             String orderData = order.getOrderID() + ";"
                     + order.getOrderCustomer() + ";"
                     + order.getOrderCategory() + ";";

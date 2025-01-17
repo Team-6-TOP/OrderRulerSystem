@@ -28,7 +28,7 @@ public class CustomerRepository {
      * @param customer
      */
     public void saveCustomer(CustomerModel customer) {
-        try (FileWriter customerFileWriter = new FileWriter(customerFile, true)) {
+        try (FileWriter customerFileWriter = new FileWriter(customerFile)) {
             String customerData = customer.getId() + ";"
                     + customer.getName() + ";"
                     + customer.getType() + System.lineSeparator();
