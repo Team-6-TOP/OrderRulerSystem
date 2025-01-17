@@ -47,8 +47,4 @@ public class ProductService {
     public List<ProductModel> getAllProducts() {
         return productRepository.loadAll();
     }
-
-    public void deleteProductById(int id) {
-        productRepository.deleteById(id);
-    }
 }

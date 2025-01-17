@@ -1,10 +1,7 @@
 package controllers;
 
-import Enums.OrderCategory;
 import models.OrderModel;
-import services.CustomerService;
 import services.OrderService;
-import services.ProductService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +9,9 @@ import java.util.Scanner;
 
 public class OrderController {
     private final OrderService orderService;
-    private final CustomerService customerService;
-    private final ProductService productService;
 
-    public OrderController(OrderService orderService, CustomerService customerService, ProductService productService) {
+    public OrderController(OrderService orderService) {
         this.orderService = orderService;
-        this.customerService = customerService;
-        this.productService = productService;
     }
 
     public void showOrderMenu() {
@@ -50,7 +43,6 @@ public class OrderController {
 
         System.out.println("Введите ID покупателя:");
         int customerId = scanner.nextInt();
-        var customer = customerService.getById(customerId);
 
         System.out.println("Введите ID товаров через запятую (1,2):");
         scanner.nextLine();
@@ -58,21 +50,14 @@ public class OrderController {
         List<Integer> productIds = new ArrayList<>();
 
         for (String id : productIdsInput) {
-            int productId = Integer.parseInt(id.trim());
-
-            if (productService.getProductById(productId) == null) {
-                System.out.println("Продукт с ID " + productId + " не найден! Попробуйте другой ID.");
-                return;
-            }
-            productIds.add(productId);
+            productIds.add(Integer.parseInt(id.trim()));
         }
 
-        OrderModel order = new OrderModel(orderIdGenerator(), customer.getId(), productIds, OrderCategory.NEW);
-        orderService.addOrder(order);
-        System.out.println("Заказ создан: " + order);
-    }
-
-    private int orderIdGenerator() {
-        return orderService.getAllOrders().size() + 1;
+        try {
+            orderService.addOrder(customerId, productIds);
+            System.out.println("Заказ создан.");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
