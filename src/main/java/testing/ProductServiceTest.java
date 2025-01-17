@@ -1,5 +1,4 @@
 package testing;
-// для дз
 
 import models.ProductModel;
 import Enums.ProductCategory;
@@ -16,24 +15,47 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Тестовый класс для проверки функциональности сервиса продуктов ProductService.
+ */
 public class ProductServiceTest {
 
+    /**
+     * Экземпляр сервиса продуктов, используемый в тестах.
+     */
     private ProductService productService;
+
+    /**
+     * Имя файла, используемого для тестов.
+     */
     private final String TEST_FILE = "test_products.txt";
 
+    /**
+     * Метод, выполняемый перед каждым тестом.
+     * Инициализирует ProductService с использованием репозитория, связанного с временным файлом.
+     */
     @Before
     public void startUp() {
         ProductRepository productRepository = new ProductRepository(TEST_FILE);
         productService = new ProductService(productRepository);
     }
 
+    /**
+     * Метод, выполняемый после каждого теста.
+     * Удаляет временный файл, чтобы очистить данные теста.
+     *
+     * @throws Exception если возникает ошибка при удалении файла.
+     */
     @After
     public void clearTestData() throws Exception {
         Path path = Paths.get(TEST_FILE);
         Files.deleteIfExists(path);
     }
 
-
+    /**
+     * Тестирует добавление нескольких продуктов в сервис.
+     * Проверяет, что добавленные продукты правильно сохраняются и могут быть получены.
+     */
     @Test
     public void TestAddProduct() {
         ProductModel test1 = new ProductModel(1, "Тест1", 999.00, ProductCategory.FOOD);
@@ -47,6 +69,10 @@ public class ProductServiceTest {
         assertEquals(test11, products.get(1));
     }
 
+    /**
+     * Тестирует получение продукта по его ID.
+     * Проверяет, что продукт, полученный по ID, совпадает с добавленным.
+     */
     @Test
     public void testGetProductId() {
         ProductModel test2 = new ProductModel(1, "Тест1", 9.00, ProductCategory.FOOD);
@@ -60,6 +86,10 @@ public class ProductServiceTest {
         assertEquals(test22, productId);
     }
 
+    /**
+     * Тестирует сценарий, когда продукт не найден по заданному ID.
+     * Проверяет, что выбрасывается правильное исключение с ожидаемым сообщением.
+     */
     @Test
     public void testProductNotFound() {
         try {
@@ -71,11 +101,15 @@ public class ProductServiceTest {
         }
     }
 
+    /**
+     * Тестирует загрузку всех продуктов после добавления нескольких.
+     * Проверяет, что количество загруженных продуктов соответствует количеству добавленных.
+     */
     @Test
     public void testLoadAllProductsAfterAdding() {
         ProductModel test4 = new ProductModel(1, "Тест1", 44.00, ProductCategory.CLOTHING);
         ProductModel test44 = new ProductModel(2, "Тест2", 22.00, ProductCategory.FOOD);
-        ProductModel test444 = new ProductModel(2, "Тест2", 22.00, ProductCategory.FOOD);
+        ProductModel test444 = new ProductModel(2, "Тест2", 22.00, ProductCategory.ELECTRONICS);
         ProductModel test4444 = new ProductModel(2, "Тест2", 22.00, ProductCategory.FOOD);
 
         productService.addProduct(test4);

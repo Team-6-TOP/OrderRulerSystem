@@ -36,7 +36,7 @@ public class ProductRepository {
      * @param product Товар для сохранения.
      */
     public void save(ProductModel product) {
-        try (FileWriter writer = new FileWriter(fileName, true)) {
+        try (FileWriter writer = new FileWriter(fileName)) {
             String productData = product.getId() + ";" +
                     product.getName() + ";" +
                     product.getPrice() + ";" +
