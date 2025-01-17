@@ -59,7 +59,7 @@ public class ProductServiceTest {
     @Test
     public void TestAddProduct() {
         ProductModel test1 = new ProductModel(1, "Тест1", 999.00, ProductCategory.FOOD);
-        ProductModel test11 = new ProductModel(2, "Тест2", 99.00, ProductCategory.FOOD);
+        ProductModel test11 = new ProductModel(2, "Тест2", 99.00, ProductCategory.CLOTHING);
         productService.addProduct(test1);
         productService.addProduct(test11);
 
