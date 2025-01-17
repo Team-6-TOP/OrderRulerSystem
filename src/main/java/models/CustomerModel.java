@@ -15,7 +15,7 @@ public class CustomerModel {
         this.type = type;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
