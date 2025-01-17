@@ -21,11 +21,11 @@ public class OrderController {
         Scanner orderSc = new Scanner(System.in);
         while (true) {
             logger.info("===== Управление заказами =====");
-            logger.info("\n1. Создать заказ - ");
-            logger.info("\n2. Показать все заказы - ");
-            logger.info("\n3. Найти заказ по ID - ");
-            logger.info("\n0. Назад. ");
-            logger.info("\nВыберите действие: ");
+            logger.info("1. Создать заказ - ");
+            logger.info("2. Показать все заказы - ");
+            logger.info("3. Найти заказ по ID - ");
+            logger.info("0. Назад. ");
+            logger.info("Выберите действие: ");
             int peek = orderSc.nextInt();
             if (peek == 0) break;
 
@@ -40,7 +40,7 @@ public class OrderController {
 
     private void showAllOrders() {
         List<OrderModel> orders = orderService.getAllOrders();
-        orders.forEach(orderModel -> logger.info("Заказ: ", orderModel));
+        orders.forEach(orderModel -> logger.info("Заказ: {}", orderModel));
     }
 
     private void addAnOrder() {
@@ -74,7 +74,7 @@ public class OrderController {
 
         try {
             OrderModel order = orderService.findOrderByID(id);
-            logger.info("Результаты поиска заказа по ID: ", order);
+            logger.info("Результаты поиска заказа по ID: {}", order);
         } catch (Exception e) {
             logger.error("Ошибка при поиске заказа! Пожалуйста, попробуйте ещё раз.");
         }
