@@ -18,22 +18,40 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Тестовый класс для проверки функциональности сервиса покупателей.
+ */
+
 public class CustomerServiceTest {
     private CustomerService customerService;
     private final String TEST_CUST = "test_customers.txt";
 
+    /**
+     * Метод, выполняемый перед каждым тестом.
+     * Инициализирует CustomerService с использованием репозитория, связанного с временным файлом.
+     */
     @Before
     public void start() {
         CustomerRepository customerRepository = new CustomerRepository(TEST_CUST);
         customerService = new CustomerService(customerRepository);
     }
 
+    /**
+     * Метод, выполняемый после каждого теста.
+     * Удаляет временный файл, чтобы очистить данные теста.
+     *
+     * @throws Exception если возникает ошибка при удалении файла.
+     */
     @After
     public void clearTest() throws Exception {
         Path path = Paths.get(TEST_CUST);
         Files.deleteIfExists(path);
     }
 
+    /**
+     * Тестирует добавление покупателей.
+     * Проверяет, что добавленные покупатели правильно сохраняются и выводятся.
+     */
     @Test
     public void testAddCustomer() {
         CustomerModel test1 = new CustomerModel(1, "Carl", CustomerType.NEW);
@@ -47,6 +65,9 @@ public class CustomerServiceTest {
         assertEquals(test11, customers.get(1));
     }
 
+    /**
+     * Тестирует вывод списка покупателей, после их добавления.
+     */
     @Test
     public void testGetAllCustomers() {
         CustomerModel test2 = new CustomerModel(10, "Charley", CustomerType.NEW);
@@ -64,6 +85,9 @@ public class CustomerServiceTest {
         assertTrue(allCustomers.contains(test222));
     }
 
+    /**
+     * Тестирует поиск по ID покупателя, находящегося в списке.
+     */
     @Test
     public void testGetCustomerById() {
         CustomerModel test3 = new CustomerModel(11, "Nick", CustomerType.NEW);
@@ -78,6 +102,10 @@ public class CustomerServiceTest {
         assertEquals(test333, customerId);
     }
 
+    /**
+     * Тестирует сценарий, где ищет покупателя по ID, но такого ID в списке нет.
+     * Проверяет, что выбрасывается правильное исключение.
+     */
     @Test
     public void testGetCustomerById_notFound() {
         try {

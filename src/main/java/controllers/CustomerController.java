@@ -15,12 +15,17 @@ public class CustomerController {
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
     private final CustomerService customerService;
 
+    /**
+     * Конструктор контроллера покупателей.
+     *
+     * @param customerService сервис для работы с покупателями.
+     */
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
     /**
-     * Показывает меню для управления покупателями
+     * Показывает меню для управления покупателями.
      */
     public void customerMenu() {
         Scanner scanner = new Scanner(System.in);
@@ -51,7 +56,7 @@ public class CustomerController {
     }
 
     /**
-     * Позволяет добавить покупателя
+     * Позволяет добавить покупателя.
      */
     private void addCustomer() {
         logger.debug("Происходит добавление покупателя:");
@@ -71,7 +76,7 @@ public class CustomerController {
     }
 
     /**
-     * Показывает список всех покупателей
+     * Показывает список всех покупателей.
      */
     private void getAllCustomers() {
         logger.debug("Выводится список покупателей:");
@@ -80,7 +85,7 @@ public class CustomerController {
     }
 
     /**
-     * Ищет покупателя по ID
+     * Ищет покупателя по ID.
      */
     private void getByIDCustomer() {
         logger.debug("Происходит поиск покупателя по id:");
@@ -97,9 +102,9 @@ public class CustomerController {
     }
 
     /**
-     * Генерирует ID покупателей
+     * Генерирует ID покупателей.
      *
-     * @return ID покупателя
+     * @return ID покупателя.
      */
     private int generateCustomerId() {
         return customerService.getAll().size() + 1;
