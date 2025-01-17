@@ -38,6 +38,7 @@ public class OrderController {
             logger.info("1. Создать заказ - ");
             logger.info("2. Показать все заказы - ");
             logger.info("3. Найти заказ по ID - ");
+            logger.info("4. Изменить статус заказа - ");
             logger.info("0. Назад. ");
             logger.info("Выберите действие: ");
             int peek = orderSc.nextInt();
@@ -47,6 +48,7 @@ public class OrderController {
                 case 1 -> addAnOrder();
                 case 2 -> showAllOrders();
                 case 3 -> findOrderByID();
+                case 4 -> changeOrderStatus();
                 default -> logger.warn("Действие выбрано неверно. Попробуйте ещё раз.");
             }
         }
@@ -79,28 +81,38 @@ public class OrderController {
         scanner.nextLine();
         String[] productIdsInput = scanner.nextLine().split(",");
         List<Integer> productIds = new ArrayList<>();
-        logger.info("Введите категорию заказа (NEW, PROCESSING, COMPLETED, CANCELLED): ");
-        String orderCategory = scanner.nextLine().toUpperCase();
-
+        OrderCategory orderCategory = OrderCategory.NEW;
         for (String id : productIdsInput) {
             productIds.add(Integer.parseInt(id.trim()));
-
-            if (!OrderCategory.isCorrectCategory(orderCategory)) {
-                logger.warn("Неверно выбрана категория! Выберите что-то из: NEW, PROCESSING, COMPLETED, CANCELLED.");
-                return;
-            }
-
-            try {
-                orderService.addOrder(customerId, productIds);
-                logger.info("Заказ создан.");
-            } catch (Exception e) {
-                logger.error("Произошла ошибка при создании заказа! Пожалуйста, попробуйте ещё раз.");
-            }
-
-            OrderModel order = new OrderModel(orderService.orderIdGenerator(), customerId, productIds,
-                    OrderCategory.valueOf(orderCategory));
+        }
+        try {
+            int orderId = orderService.orderIdGenerator();
             orderService.addOrder(customerId, productIds);
+            OrderModel order = new OrderModel(orderId, customerId, productIds, orderCategory);
             logger.info("Заказ создан: {}", order);
+        } catch (Exception e) {
+            logger.error("Произошла ошибка при создании заказа! Пожалуйста, попробуйте ещё раз.");
+        }
+    }
+
+    private void changeOrderStatus() {
+        logger.info("Введите ID заказа для изменения статуса:");
+        Scanner sc = new Scanner(System.in);
+        int orderId = sc.nextInt();
+
+        logger.info("Введите новый статус заказа. Выберите что-то из: NEW, PROCESSING, COMPLETED, CANCELLED.");
+        String orderCategoryInput = sc.next().toUpperCase();
+
+        if (!OrderCategory.isCorrectCategory(orderCategoryInput)) {
+            logger.warn("Неверно выбрана категория! Выберите что-то из: NEW, PROCESSING, COMPLETED, CANCELLED.");
+            return;
+        }
+        OrderCategory newCategory = OrderCategory.valueOf(orderCategoryInput);
+        try {
+            orderService.changeOrderStatus(orderId, newCategory);
+            logger.info("Статус заказа с ID {} изменён на {}", orderId, newCategory);
+        } catch (Exception e) {
+            logger.error("Ошибка при изменении статуса заказа: {}", e.getMessage());
         }
     }
 

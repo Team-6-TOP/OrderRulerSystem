@@ -9,7 +9,7 @@ public class OrderModel {
     private final int orderID;
     private final int orderCustomer;
     private final List<Integer> productId;
-    private final OrderCategory orderCategory;
+    private OrderCategory orderCategory;
 
     public OrderModel(int orderID, int orderCustomer,
                       List<Integer> productId, OrderCategory orderCategory) {
@@ -35,6 +35,10 @@ public class OrderModel {
         return orderCategory;
     }
 
+    public void setOrderCategory(OrderCategory orderCategory) {
+        this.orderCategory = orderCategory;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -52,6 +56,7 @@ public class OrderModel {
 
     /**
      * Метод возвращающий созданный заказ
+     *
      * @return
      */
 
