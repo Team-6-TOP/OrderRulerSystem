@@ -34,8 +34,8 @@ public class OrderService {
         return getAllOrders().size() + 1;
     }
 
-    public OrderModel findOrderID(int orderID) {
-        return orderRepository.findOrderID(orderID);
+    public OrderModel findOrderByID(int orderID) {
+        return orderRepository.findOrderByID(orderID);
     }
 
     public List<OrderModel> getAllOrders() {

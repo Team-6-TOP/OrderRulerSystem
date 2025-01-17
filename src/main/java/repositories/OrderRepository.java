@@ -74,7 +74,7 @@ public class OrderRepository {
         return orders;
     }
 
-    public OrderModel findOrderID(int orderID) {
+    public OrderModel findOrderByID(int orderID) {
         return loadAllOrders().stream()
                 .filter(orderModel -> orderModel.getOrderID() == orderID)
                 .findFirst()
