@@ -28,23 +28,13 @@ public class OrderRepository {
 
     /**
      * Сохраняет ордер в .txt файл
+     *
      * @param order
      */
 
     public void saveAnOrder(OrderModel order) {
         try (FileWriter orderFileWriter = new FileWriter(orderFile, true)) {
-            String orderData = order.getOrderID() + ";"
-                    + order.getOrderCustomer() + ";"
-                    + order.getOrderCategory() + ";";
-            for (Integer productId : order.getProductId()) {
-                orderData += productId + ",";
-            }
-            if (!order.getProductId().isEmpty()) {
-                orderData = orderData.substring(0, orderData.length() - 1);
-            }
-            orderData += System.lineSeparator();
-
-            orderFileWriter.write(orderData);
+            saveFile(orderFileWriter, order);
             logger.info("Заказ сохранён! ID заказа: {}", order.getOrderID());
         } catch (IOException e) {
             logger.error("Произошла ошибка во время сохранения заказа: {}", e.getMessage());
@@ -55,6 +45,7 @@ public class OrderRepository {
 
     /**
      * Загружает все заказы
+     *
      * @return
      */
 
@@ -91,9 +82,47 @@ public class OrderRepository {
         return orders;
     }
 
+    public void updateOrder(OrderModel order) {
+        List<OrderModel> orders = loadAllOrders();
+        for (int i = 0; i < orders.size(); i++) {
+            if (orders.get(i).getOrderID() == order.getOrderID()) {
+                orders.set(i, order);
+                break;
+            }
+        }
+        changeOrders(orders);
+    }
+
+    private void changeOrders(List<OrderModel> orders) {
+        try (FileWriter orderFileWriter = new FileWriter(orderFile)) {
+            for (OrderModel order : orders) {
+                saveFile(orderFileWriter, order);
+            }
+            logger.info("Заказ перезаписан.");
+        } catch (IOException e) {
+            logger.error("Произошла ошибка во время сохранения заказов: {}", e.getMessage());
+            throw new RuntimeException("Ошибка при сохранении заказов: " + e.getMessage());
+        }
+    }
+
+    private void saveFile(FileWriter orderFileWriter, OrderModel order) throws IOException {
+        String orderData = order.getOrderID() + ";"
+                + order.getOrderCustomer() + ";"
+                + order.getOrderCategory() + ";";
+        for (Integer productId : order.getProductId()) {
+            orderData += productId + ",";
+        }
+        if (!order.getProductId().isEmpty()) {
+            orderData = orderData.substring(0, orderData.length() - 1);
+        }
+        orderData += System.lineSeparator();
+
+        orderFileWriter.write(orderData);
+    }
 
     /**
      * Метод для поиска заказа по ID
+     *
      * @param orderID
      * @return
      */

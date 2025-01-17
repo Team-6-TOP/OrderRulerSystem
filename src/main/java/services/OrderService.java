@@ -14,6 +14,7 @@ public class OrderService {
 
     /**
      * Конструктор сервиса
+     *
      * @param orderRepository
      * @param customerService
      * @param productService
@@ -27,6 +28,7 @@ public class OrderService {
 
     /**
      * Метод добавления заказа
+     *
      * @param customerId
      * @param productIds
      */
@@ -45,9 +47,15 @@ public class OrderService {
         orderRepository.saveAnOrder(order);
     }
 
+    public void changeOrderStatus(int orderID, OrderCategory newCategory) {
+        OrderModel order = findOrderByID(orderID);
+        order.setOrderCategory(newCategory);
+        orderRepository.updateOrder(order);
+    }
 
     /**
      * Метод для генерации ID
+     *
      * @return
      */
 
@@ -58,6 +66,7 @@ public class OrderService {
 
     /**
      * Метод для поиска заказа по ID
+     *
      * @param orderID
      * @return
      */
@@ -69,6 +78,7 @@ public class OrderService {
 
     /**
      * Метод, загружающий заказы
+     *
      * @return
      */
 

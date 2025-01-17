@@ -42,10 +42,9 @@ public class ProductRepository {
                     product.getPrice() + ";" +
                     product.getCategory().name() + System.lineSeparator();
             writer.write(productData);
-            logger.info("Товар сохранен: {}", product);
+            logger.debug("Товар сохранен: {}", product);
         } catch (IOException e) {
             logger.error("Ошибка при сохранении продукта: {}", e.getMessage());
-            throw new RuntimeException("Ошибка при сохранении продукта: " + e.getMessage());
         }
     }
 
@@ -75,7 +74,6 @@ public class ProductRepository {
             logger.debug("Загружено продуктов: {}", products.size());
         } catch (IOException e) {
             logger.error("Ошибка при загрузке продуктов: {}", e.getMessage());
-            throw new RuntimeException("Ошибка при загрузке продуктов: " + e.getMessage());
         }
         return products;
     }
