@@ -25,6 +25,12 @@ public class OrderRepository {
 
     private final CustomerRepository customerRepository = new CustomerRepository("customers.txt");
 
+
+    /**
+     * Сохраняет ордер в .txt файл
+     * @param order
+     */
+
     public void saveAnOrder(OrderModel order) {
         try (FileWriter orderFileWriter = new FileWriter(orderFile, true)) {
             String orderData = order.getOrderID() + ";"
@@ -45,6 +51,12 @@ public class OrderRepository {
             throw new RuntimeException("Ошибка при сохранении заказа: " + e.getMessage());
         }
     }
+
+
+    /**
+     * Загружает все заказы
+     * @return
+     */
 
     public List<OrderModel> loadAllOrders() {
         List<OrderModel> orders = new ArrayList<>();
@@ -78,6 +90,13 @@ public class OrderRepository {
         }
         return orders;
     }
+
+
+    /**
+     * Метод для поиска заказа по ID
+     * @param orderID
+     * @return
+     */
 
     public OrderModel findOrderByID(int orderID) {
         return loadAllOrders().stream()

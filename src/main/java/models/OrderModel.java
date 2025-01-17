@@ -49,9 +49,15 @@ public class OrderModel {
         return Objects.hash(orderID, orderCustomer, productId, orderCategory);
     }
 
+
+    /**
+     * Метод возвращающий созданный заказ
+     * @return
+     */
+
     @Override
     public String toString() {
-        return "New order: " + "\nOrder ID: " + orderID + "\nCustomer ID: " + orderCustomer + "\nOrder type: "
+        return "\nOrder ID: " + orderID + "\nCustomer ID: " + orderCustomer + "\nOrder type: "
                 + orderCategory + "\nProduct ID: " + productId
                 + "\n------------------------------------------";
     }

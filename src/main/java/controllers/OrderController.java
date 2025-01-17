@@ -1,5 +1,6 @@
 package controllers;
 
+import Enums.OrderCategory;
 import models.OrderModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +14,21 @@ public class OrderController {
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
     private final OrderService orderService;
 
+
+    /**
+     * Конструктор для контроллера
+     * @param orderService
+     */
+
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
+
+
+    /**
+     * Показывает меню управления заказами
+     * Выбираете действие и продолжаете работу
+     */
 
     public void showOrderMenu() {
         Scanner orderSc = new Scanner(System.in);
@@ -38,10 +51,22 @@ public class OrderController {
         }
     }
 
+
+    /**
+     * Показывает все заказы
+     */
+
     private void showAllOrders() {
         List<OrderModel> orders = orderService.getAllOrders();
         orders.forEach(orderModel -> logger.info("Заказ: {}", orderModel));
     }
+
+
+    /**
+     * Метод для добавления заказа
+     * Вводите ID покупателя, ID товаров и категорию
+     * Добавлять покупателя и товар нужно заранее через другие контроллеры
+     */
 
     private void addAnOrder() {
         Scanner scanner = new Scanner(System.in);
@@ -53,18 +78,24 @@ public class OrderController {
         scanner.nextLine();
         String[] productIdsInput = scanner.nextLine().split(",");
         List<Integer> productIds = new ArrayList<>();
+        logger.info("Введите категорию заказа (NEW, PROCESSED, COMPLETED, CANCELLED): ");
+        String orderCategory = scanner.nextLine().toUpperCase();
 
-        for (String id : productIdsInput) {
-            productIds.add(Integer.parseInt(id.trim()));
+        if (!OrderCategory.isCorrectCategory(orderCategory)) {
+            logger.warn("Неверно выбрана категория! Выберите что-то из: NEW, PROCESSED, COMPLETED, CANCELLED.");
+            return;
         }
 
-        try {
-            orderService.addOrder(customerId, productIds);
-            logger.info("Заказ создан.");
-        } catch (Exception e) {
-            logger.error("Произошла ошибка при создании заказа! Пожалуйста, попробуйте ещё раз.");
-        }
+        OrderModel order = new OrderModel(orderService.orderIdGenerator(), customerId, productIds,
+                OrderCategory.valueOf(orderCategory));
+        orderService.addOrder(customerId, productIds);
+        logger.info("Заказ создан: {}", order);
     }
+
+
+    /**
+     * Метод для поиска заказа по ID
+     */
 
     private void findOrderByID() {
         logger.debug("Поиск заказа по ID...");
