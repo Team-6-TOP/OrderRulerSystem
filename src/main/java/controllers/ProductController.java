@@ -77,7 +77,7 @@ public class ProductController {
 
         ProductModel product = new ProductModel(generateProductId(), name, price, ProductCategory.valueOf(categoryInput));
         productService.addProduct(product);
-        logger.info("Товар добавлен: {}", product);
+        logger.debug("Товар добавлен: {}", product);
     }
 
     /**
@@ -87,7 +87,7 @@ public class ProductController {
         Scanner scanner = new Scanner(System.in);
         logger.info("Введите ID товара для поиска: ");
         int id = scanner.nextInt();
-        logger.info("Поиск товара с ID: {}", id);
+        logger.debug("Поиск товара с ID: {}", id);
 
         try {
             ProductModel product = productService.getProductById(id);

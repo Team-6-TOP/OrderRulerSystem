@@ -36,7 +36,7 @@ public class ProductRepository {
      * @param product Товар для сохранения.
      */
     public void save(ProductModel product) {
-        try (FileWriter writer = new FileWriter(fileName)) {
+        try (FileWriter writer = new FileWriter(fileName, true)) {
             String productData = product.getId() + ";" +
                     product.getName() + ";" +
                     product.getPrice() + ";" +
@@ -72,7 +72,7 @@ public class ProductRepository {
                     products.add(new ProductModel(id, name, price, category));
                 }
             }
-            logger.info("Загружено продуктов: {}", products.size());
+            logger.debug("Загружено продуктов: {}", products.size());
         } catch (IOException e) {
             logger.error("Ошибка при загрузке продуктов: {}", e.getMessage());
             throw new RuntimeException("Ошибка при загрузке продуктов: " + e.getMessage());
@@ -87,7 +87,7 @@ public class ProductRepository {
      * @return Найденный товар.
      */
     public ProductModel findById(int id) {
-        logger.info("Поиск товара по ID: {}", id);
+        logger.debug("Поиск товара по ID: {}", id);
         return loadAll().stream()
                 .filter(product -> product.getId() == id)
                 .findFirst()
