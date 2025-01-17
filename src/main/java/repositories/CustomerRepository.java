@@ -16,7 +16,11 @@ import java.util.List;
 
 public class CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
-    private final String customerFile = "customers.txt";
+    private final String customerFile;
+
+    public CustomerRepository(String customerFile) {
+        this.customerFile = customerFile;
+    }
 
     /**
      * Сохраняет покупателя в файл

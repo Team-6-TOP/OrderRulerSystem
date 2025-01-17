@@ -17,8 +17,13 @@ import java.util.List;
 
 public class OrderRepository {
     private static final Logger logger = LoggerFactory.getLogger(OrderRepository.class);
-    private final String orderFile = "orders.txt";
-    private final CustomerRepository customerRepository = new CustomerRepository();
+    private final String orderFile;
+
+    public OrderRepository(String orderFile) {
+        this.orderFile = orderFile;
+    }
+
+    private final CustomerRepository customerRepository = new CustomerRepository("customers.txt");
 
     public void saveAnOrder(OrderModel order) {
         try (FileWriter orderFileWriter = new FileWriter(orderFile, true)) {
