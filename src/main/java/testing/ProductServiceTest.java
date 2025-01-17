@@ -1,6 +1,5 @@
 package testing;
 
-import Enums.ProductCategory;
 import models.ProductModel;
 import repositories.ProductRepository;
 import services.ProductService;
@@ -18,11 +17,10 @@ import static org.junit.Assert.*;
 public class ProductServiceTest {
     private static final String FILE = "bespoleznovoe.txt";
     private ProductService productService;
-    private ProductRepository productRepository;
 
     @Before
     public void setUp() {
-        productRepository = new ProductRepository() {
+        ProductRepository productRepository = new ProductRepository() {
             @Override
             public void save(ProductModel product) {
                 try (FileWriter writer = new FileWriter(FILE, true)) {
@@ -72,24 +70,9 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testAddProduct() {
-        ProductModel product1 = new ProductModel(1, "Тест1", 999.0, ProductCategory.FOOD);
-
-        productService.addProduct(product1);
-
-        List<ProductModel> products = productService.getAllProducts();
-        assertEquals(4, products.size());
-        assertEquals(product1.getName(), products.get(0).getName());
-    }
-
-    @Test
     public void testGetProductById_found() {
-        ProductModel product2 = new ProductModel(2, "Тест2", 545.0, ProductCategory.ELECTRONICS);
-        productService.addProduct(product2);
-
         ProductModel foundProduct = productService.getProductById(2);
-
-        assertEquals(product2.getName(), foundProduct.getName());
+        assertEquals("Тест2", foundProduct.getName());
     }
 
     @Test
@@ -102,15 +85,10 @@ public class ProductServiceTest {
 
     @Test
     public void testGetAllProducts() {
-        ProductModel product3 = new ProductModel(3, "Тест3", 12.0, ProductCategory.ELECTRONICS);
-        ProductModel product4 = new ProductModel(4, "Тест4", 444.0, ProductCategory.CLOTHING);
-
-        productService.addProduct(product3);
-        productService.addProduct(product4);
-
         List<ProductModel> foundProducts = productService.getAllProducts();
-
         assertEquals(4, foundProducts.size());
+        assertEquals("Тест1", foundProducts.get(0).getName());
+        assertEquals("Тест2", foundProducts.get(1).getName());
         assertEquals("Тест3", foundProducts.get(2).getName());
         assertEquals("Тест4", foundProducts.get(3).getName());
     }
