@@ -17,9 +17,9 @@ public class Main {
     public static void main(String[] args) {
         logger.info("Приложение запущено.");
 
-        ProductRepository productRepository = new ProductRepository();
-        CustomerRepository customerRepository = new CustomerRepository();
-        OrderRepository orderRepository = new OrderRepository();
+        ProductRepository productRepository = new ProductRepository("products.txt");
+        CustomerRepository customerRepository = new CustomerRepository("customers.txt");
+        OrderRepository orderRepository = new OrderRepository("orders.txt");
 
         ProductService productService = new ProductService(productRepository);
         CustomerService customerService = new CustomerService(customerRepository);

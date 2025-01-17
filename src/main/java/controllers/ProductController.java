@@ -1,6 +1,5 @@
 package controllers;
 
-import exceptions.ProductNotFoundException;
 import models.ProductModel;
 import Enums.ProductCategory;
 import services.ProductService;

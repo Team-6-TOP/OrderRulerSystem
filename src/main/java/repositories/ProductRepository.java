@@ -19,7 +19,16 @@ import java.util.List;
  */
 public class ProductRepository {
     private static final Logger logger = LoggerFactory.getLogger(ProductRepository.class);
-    private final String fileName = "products.txt";
+    private final String fileName;
+
+    /**
+     * Конструктор, принимающий имя файла для работы с продуктами.
+     *
+     * @param fileName Имя файла для сохранения продуктов.
+     */
+    public ProductRepository(String fileName) {
+        this.fileName = fileName;
+    }
 
     /**
      * Сохраняет товар в файл.
