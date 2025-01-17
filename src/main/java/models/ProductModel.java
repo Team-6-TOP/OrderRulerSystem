@@ -60,6 +60,8 @@ public class ProductModel {
 
     @Override
     public String toString() {
-        return String.format("Product{id=%d, name='%s', price=%.2f, category='%s'}", id, name, price, category);
+        return "Product: " + "\nProduct ID: " + id + "\nProduct name: " + name + "\nProduct price: "
+                + price + "\nProduct Сategory: " + category
+                + "\n------------------------------------------";
     }
 }

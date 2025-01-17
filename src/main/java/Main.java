@@ -23,11 +23,11 @@ public class Main {
 
         ProductService productService = new ProductService(productRepository);
         CustomerService customerService = new CustomerService(customerRepository);
-        OrderService orderService = new OrderService(orderRepository);
+        OrderService orderService = new OrderService(orderRepository, customerService, productService);
 
         ProductController productController = new ProductController(productService);
         CustomerController customerController = new CustomerController(customerService);
-        OrderController orderController = new OrderController(orderService, customerService, productService);
+        OrderController orderController = new OrderController(orderService);
 
         MainController mainController = new MainController(productController, customerController, orderController);
 
