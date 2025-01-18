@@ -28,7 +28,7 @@ public class ProductController {
     /**
      * Отображает меню управления товарами.
      */
-    public void showMenu() {
+    public void showProductMenu() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             logger.info("===== Управление товарами =====");
@@ -43,7 +43,7 @@ public class ProductController {
             switch (choice) {
                 case 1 -> addProduct();
                 case 2 -> showAllProducts();
-                case 3 -> findProductById();
+                case 3 -> findProductId();
                 default -> logger.warn("Некорректный выбор. Попробуйте еще раз.");
             }
         }
@@ -83,14 +83,14 @@ public class ProductController {
     /**
      * Ищет товар по ID.
      */
-    private void findProductById() {
+    private void findProductId() {
         Scanner scanner = new Scanner(System.in);
         logger.info("Введите ID товара для поиска: ");
         int id = scanner.nextInt();
         logger.debug("Поиск товара с ID: {}", id);
 
         try {
-            ProductModel product = productService.getProductById(id);
+            ProductModel product = productService.getProductId(id);
             logger.info("Найденный товар: {}", product);
         } catch (Exception e) {
             logger.error("Ошибка при поиске товара: {}", e.getMessage());

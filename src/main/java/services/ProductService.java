@@ -35,8 +35,8 @@ public class ProductService {
      * @param id Идентификатор товара.
      * @return Найденный товар.
      */
-    public ProductModel getProductById(int id) {
-        return productRepository.findById(id);
+    public ProductModel getProductId(int id) {
+        return productRepository.findId(id);
     }
 
     /**

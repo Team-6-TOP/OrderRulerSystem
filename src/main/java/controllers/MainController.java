@@ -35,7 +35,7 @@ public class MainController {
             switch (choice) {
                 case 1 -> {
                     logger.info("Переход к меню управления товарами.");
-                    productController.showMenu();
+                    productController.showProductMenu();
                 }
                 case 2 -> {
                     logger.info("Переход к меню управления покупателями.");
