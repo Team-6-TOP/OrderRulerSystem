@@ -84,7 +84,7 @@ public class ProductRepository {
      * @param id Идентификатор товара.
      * @return Найденный товар.
      */
-    public ProductModel findById(int id) {
+    public ProductModel findId(int id) {
         logger.debug("Поиск товара по ID: {}", id);
         return loadAll().stream()
                 .filter(product -> product.getId() == id)

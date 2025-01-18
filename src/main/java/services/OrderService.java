@@ -38,7 +38,7 @@ public class OrderService {
             throw new IllegalArgumentException("Покупатель с ID " + customerId + " не найден.");
         }
         for (Integer productId : productIds) {
-            if (productService.getProductById(productId) == null) {
+            if (productService.getProductId(productId) == null) {
                 throw new IllegalArgumentException("Продукт с ID " + productId + " не найден.");
             }
         }

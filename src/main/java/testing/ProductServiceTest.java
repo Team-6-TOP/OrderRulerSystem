@@ -82,7 +82,7 @@ public class ProductServiceTest {
         productService.addProduct(test22);
         productService.addProduct(test222);
 
-        ProductModel productId = productService.getProductById(2);
+        ProductModel productId = productService.getProductId(2);
         assertEquals(test22, productId);
     }
 
@@ -93,7 +93,7 @@ public class ProductServiceTest {
     @Test
     public void testProductNotFound() {
         try {
-            productService.getProductById(55);
+            productService.getProductId(55);
             fail("Ожидалось исключение при поиске несуществующего товара.");
         } catch (RuntimeException e) {
             String trueLie = "Товар с ID: 55 не найден.";
