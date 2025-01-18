@@ -93,6 +93,11 @@ public class OrderRepository {
         changeOrders(orders);
     }
 
+    /**
+     * Метод для изменений txt файла. Даёт менять статус заказа
+     * @param orders
+     */
+
     private void changeOrders(List<OrderModel> orders) {
         try (FileWriter orderFileWriter = new FileWriter(orderFile)) {
             for (OrderModel order : orders) {
@@ -104,6 +109,14 @@ public class OrderRepository {
             throw new RuntimeException("Ошибка при сохранении заказов: " + e.getMessage());
         }
     }
+
+
+    /**
+     * Сохраняет файл и позволяет вносить изменения (например статус заказа)
+     * @param orderFileWriter
+     * @param order
+     * @throws IOException
+     */
 
     private void saveFile(FileWriter orderFileWriter, OrderModel order) throws IOException {
         String orderData = order.getOrderID() + ";"
