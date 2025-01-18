@@ -51,7 +51,6 @@ public class UserRepository {
                     users.add(new UserModel(id, username, password));
                 }
             }
-            logger.info("Загружено пользователей: {}", users.size());
         } catch (IOException e) {
             logger.error("Ошибка при загрузке пользователей: {}", e.getMessage());
             throw new RuntimeException("Ошибка при загрузке пользователей: " + e.getMessage());
