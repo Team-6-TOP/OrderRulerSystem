@@ -67,7 +67,8 @@ public class CustomerController {
         String customerTypeChoice = sc.nextLine().toUpperCase();
 
         if (!CustomerType.isCorrectType(customerTypeChoice)) {
-            logger.error("Неверный тип");
+            logger.warn("Неверный тип, выберите из предложенного: NEW, REGULAR, VIP");
+            return;
         }
         CustomerModel customer = new CustomerModel(generateCustomerId(), customerName,
                 CustomerType.valueOf(customerTypeChoice));
